@@ -1,0 +1,46 @@
+
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background-color: #000000; /* sidebar background */
+  padding: 24px 16px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.sidebar-title {
+  color: #f8fafc; /* title of sidebar */
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 40px 12px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nav-item {
+  width: 100%;
+  padding: 14px 16px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #f8fafc; /* sidebar options */
+  text-align: left;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.nav-item:hover {
+  background-color: #0f0f0f; /* highlight hover color for sidebar options */
+  color: #f8fafc; /* color of text during hover */
+}
+
+.nav-item.active {
+  background-color: #000000;
+  color: #f8fafc; /* dashboard text color */
+  font-weight: 600;
+}
