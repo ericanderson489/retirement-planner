@@ -13,7 +13,7 @@ function App() {
 
   return (
     <div className="app-layout">
-      <Sidebar
+      <Sidebar /*Side function, sets the main page depending on clicked item*/ 
         activePage={activePage}
         onPageChange={setActivePage}
       />
@@ -22,7 +22,7 @@ function App() {
         <h1>{activePage}</h1>
         
 
-        {activePage === "Dashboard" || activePage === "Calculator" ? (
+        {activePage === "Dashboard" || activePage === "Calculator" ?/*This question mark represents a conditional operator */ (
           <>
             <p>Calculate your estimated monthly retirement withdrawal.</p>
 
