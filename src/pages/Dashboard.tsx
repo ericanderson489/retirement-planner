@@ -3,52 +3,60 @@ import SummaryCard from "../components/SummaryCard";
 import "./Dashboard.css";
 
 interface DashboardProps {
-  savings: number;
-  annualWithdrawal: number;
-  monthlyWithdrawal: number;
-  withdrawalRate: number;
+  totalAssets: number;
+  investmentTotal: number;
+  availableCashTotal: number;
+  shortTermTotal: number;
 }
 
 function Dashboard({
-  savings,
-  annualWithdrawal,
-  monthlyWithdrawal,
-  withdrawalRate
+  totalAssets,
+  investmentTotal,
+  availableCashTotal,
+  shortTermTotal
 }: DashboardProps) {
   return (
     <section>
       <p>Your retirement at a glance.</p>
 
       <div className="dashboard-grid">
-        <SummaryCard
-          title="Total Savings"
-          value={`$${savings.toLocaleString()}`}
-          description="Retirement portfolio"
-        />
+        
+<SummaryCard
+  title="Total Assets"
+  value={totalAssets.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD"
+  })}
+  description="Total value across all accounts"
+/>
 
-        <SummaryCard
-          title="Monthly Withdrawal"
-          value={`$${monthlyWithdrawal.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-          })}`}
-          description={`Based on a ${withdrawalRate}% annual withdrawal rate`}
-        />
+<SummaryCard
+  title="Investments"
+  value={investmentTotal.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD"
+  })}
+  description="Long-term investment assets"
+/>
 
-        <SummaryCard
-          title="Annual Withdrawal"
-          value={`$${annualWithdrawal.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-          })}`}
-          description="Estimated annual withdrawal before taxes"
-        />
+<SummaryCard
+  title="Available Cash"
+  value={availableCashTotal.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD"
+  })}
+  description="Cash available for immediate use"
+/>
 
-        <SummaryCard
-          title="Monthly Expenses"
-          value="Not set"
-          description="Expense tracking coming soon"
-        />
+<SummaryCard
+  title="Short-Term Assets"
+  value={shortTermTotal.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD"
+  })}
+  description="Interest-earning cash equivalents"
+/>
+
       </div>
     </section>
   );
