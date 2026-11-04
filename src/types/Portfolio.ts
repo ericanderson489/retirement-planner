@@ -1,3 +1,4 @@
+// Union type of string literals, only one of the three strings can be assigned/chosen
 export type AssetCategory =
   | "Investments"
   | "Available Cash"
