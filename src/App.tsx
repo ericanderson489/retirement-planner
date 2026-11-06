@@ -36,13 +36,46 @@ const shortTermTotal = accounts
 
   return (
     <div className="app-layout">
-      <Sidebar
+      <Sidebar /*Side function, sets the main page depending on clicked item*/ 
         activePage={activePage}
         onPageChange={setActivePage}
       />
 
       <main className="main-content">
         <h1>{activePage}</h1>
+        
+
+        {activePage === "Dashboard" || activePage === "Calculator" ?/*This question mark represents a conditional operator */ (
+          <>
+            <p>Calculate your estimated monthly retirement withdrawal.</p>
+
+            <div>
+              <label htmlFor="savings">Retirement Savings ($): </label>
+              <input
+                id="savings"
+                type="number"
+                min="0"
+                value={savings}
+                onChange={(event) =>
+                  setSavings(Number(event.target.value))
+                }
+              />
+            </div>
+
+            <div>
+              <label htmlFor="withdrawalRate">
+                Annual Withdrawal Rate (%):
+              </label>
+              <input
+                id="withdrawalRate"
+                type="number"
+                min="0"
+                value={withdrawalRate}
+                onChange={(event) =>
+                  setWithdrawalRate(Number(event.target.value))
+                }
+              />
+            </div>
 
         {activePage === "Dashboard" ? (
           <Dashboard

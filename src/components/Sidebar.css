@@ -41,6 +41,6 @@
 
 .nav-item.active {
   background-color: #000000;
-  color: #f8fafc; /* dashboard text color */
+  color: #336da7; /* dashboard text color */
   font-weight: 600;
 }
