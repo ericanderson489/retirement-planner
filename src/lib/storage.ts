@@ -12,7 +12,7 @@ export const defaultData: PlannerData = {
         name: "",
         birthDate: "",
         filingStatus: "single",
-        riskTolerance: "moderate",
+        riskTolerance: "moderate", 
     },
     accounts: [],
     debts: [],
@@ -24,10 +24,15 @@ export const defaultData: PlannerData = {
 export function loadData(): PlannerData {
     try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        if (raw == null) return defaultData; // First visit: nothing saved
+        // '==' true for null or undefined, '===' only true for null
+        if (raw === null) return defaultData; // First visit: nothing saved
         const parsed = JSON.parse(raw) as Partial<PlannerData>;
         // Start from the defaults, then overwrite with whatever was saved
-        return { ...defaultData, ...parsed };
+        return { 
+            ...defaultData,
+             ...parsed, 
+            profile: { ...defaultData.profile, ...parsed.profile } 
+        };
     } catch {
         // Corrupted or unreadable data: start fresh rather than crash
         return defaultData;
@@ -40,5 +45,13 @@ export function saveData(data: PlannerData): void {
     } catch (error) {
         // Can fail if storage is full or blocked
         console.error("Could not save planner data:", error);
+    }
+}
+
+export function clearData(): void {
+    try {
+        localStorage.removeItem(STORAGE_KEY);
+    } catch (error) {
+        console.error("Could not clear planner data:", error);
     }
 }

@@ -12,7 +12,6 @@ import Debts from "./pages/Debts";
 
 function App() {
   const [activePage, setActivePage] = useState<string>("Dashboard");
-
   const [savings, setSavings] = useState<number>(500000);
   const [withdrawalRate, setWithdrawalRate] = useState<number>(4);
 
@@ -69,14 +68,12 @@ const shortTermTotal = accounts
 
   return (
     <div className="app-layout">
-      <Sidebar
+      <Sidebar /*Side function, sets the main page depending on clicked item*/ 
         activePage={activePage}
         onPageChange={setActivePage}
       />
-
       <main className="main-content">
         <h1>{activePage}</h1>
-
         {activePage === "Dashboard" ? (
           <Dashboard
             totalAssets={totalAssets}
