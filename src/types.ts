@@ -1,3 +1,4 @@
+import type { PortfolioAccount } from "./types/Portfolio";
 // A union type. The values must be exactly one of these strings.
 // Typos like roth ira become compile errors instead of silent bugs.
 
@@ -110,7 +111,7 @@ export interface Profile {
 // Everything the app knows about the user in a single object 
 export interface PlannerData {
     profile: Profile;
-    accounts: Account[]; // Array of account objects.
+    accounts: PortfolioAccount[]; // Array of account objects.
     debts: Debt[];
     insurancePolicies: InsurancePolicy[];
     estateDocuments: EstateDocument[];

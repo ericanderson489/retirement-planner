@@ -1,0 +1,128 @@
+.debts-page {
+  width: 100%;
+  max-width: 1100px;
+  color: #e5e7eb;
+}
+
+.debt-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.debt-summary-card,
+.debt-card {
+  background: #1e293b;
+  border: 1px solid #475569;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.debt-summary-card h2 {
+  margin: 0 0 12px;
+  font-size: 1rem;
+  color: #cbd5e1;
+}
+
+.debt-summary-card strong {
+  font-size: 1.8rem;
+}
+
+.debt-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.debt-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.debt-form input,
+.debt-form select {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #64748b;
+  border-radius: 8px;
+  background: #0f172a;
+  color: #f8fafc;
+  font: inherit;
+}
+
+.debt-form button,
+.debt-card button {
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 8px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.debt-form button {
+  align-self: end;
+  background: #2563eb;
+  color: white;
+}
+
+.debt-card button {
+  background: #991b1b;
+  color: white;
+}
+
+.debts-page input:focus-visible,
+.debts-page select:focus-visible,
+.debts-page button:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 3px;
+}
+
+.debt-error {
+  grid-column: 1 / -1;
+  color: #fca5a5;
+  margin: 0;
+}
+
+.debt-list {
+  display: grid;
+  gap: 16px;
+}
+
+.debt-card {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.debt-card h3 {
+  margin: 0 0 8px;
+  overflow-wrap: anywhere;
+}
+
+.debt-card p {
+  margin: 6px 0;
+  color: #cbd5e1;
+}
+
+.debt-card-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .debt-card {
+    flex-direction: column;
+  }
+
+  .debt-card-actions {
+    align-items: flex-start;
+  }
+}

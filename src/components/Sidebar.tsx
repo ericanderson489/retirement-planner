@@ -13,6 +13,7 @@ function Sidebar({ activePage, onPageChange }: SidebarProps) {
     "Projections",
     "Expenses",
     "Portfolio",
+    "Debts",
     "Settings"
   ];
 
