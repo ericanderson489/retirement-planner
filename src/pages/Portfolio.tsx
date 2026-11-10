@@ -38,36 +38,65 @@ const shortTermTotal = accounts
   .filter((account) => account.category === "Short-Term Assets")
   .reduce((total, account) => total + account.balance, 0);
 
+const [editingId, setEditingId] = useState<string | null>(null);
 
-  function addAccount(event: React.SubmitEvent<HTMLFormElement>) {
-    event.preventDefault();
+  function resetForm() {
+  setEditingId(null);
+  setAccountName("");
+  setAccountType("Brokerage");
+  setAccountBalance("");
+  setAccountCategory("Investments");
+}
 
-    const balance = Number(accountBalance);
+function editAccount(account: PortfolioAccount) {
+  setEditingId(account.id);
+  setAccountName(account.name);
+  setAccountType(account.type);
+  setAccountBalance(String(account.balance));
+  setAccountCategory(account.category);
+}
 
-    if (!accountName.trim() || accountBalance.trim() === "" ||
-        !Number.isFinite(balance) || balance < 0) {
-      return;
-    }
+function saveAccount(event: React.SubmitEvent<HTMLFormElement>) {
+  event.preventDefault();
 
-    const newAccount: PortfolioAccount = {
-      id: crypto.randomUUID(),
-      name: accountName.trim(),
-      type: accountType,
-      category: accountCategory,
-      balance: balance
-    };
+  const balance = Number(accountBalance);
 
-    onAccountsChange([...accounts, newAccount]);
-
-    setAccountName("");
-    setAccountBalance("");
+  if (
+    !accountName.trim() ||
+    accountBalance.trim() === "" ||
+    !Number.isFinite(balance) ||
+    balance < 0
+  ) {
+    return;
   }
 
-  function deleteAccount(id: string) {
-   onAccountsChange(
-  accounts.filter((account) => account.id !== id)
-);
+  const savedAccount: PortfolioAccount = {
+    id: editingId ?? crypto.randomUUID(),
+    name: accountName.trim(),
+    type: accountType,
+    category: accountCategory,
+    balance
+  };
+
+  const updatedAccounts = editingId !== null
+    ? accounts.map((account) =>
+        account.id === editingId ? savedAccount : account
+      )
+    : [...accounts, savedAccount];
+
+  onAccountsChange(updatedAccounts);
+  resetForm();
+}
+
+function deleteAccount(id: string) {
+  onAccountsChange(
+    accounts.filter((account) => account.id !== id)
+  );
+
+  if (editingId === id) {
+    resetForm();
   }
+}
 
   return (
     <section className="portfolio-page">
@@ -100,9 +129,9 @@ const shortTermTotal = accounts
       </div>
       </div>
 
-      <h2>Add Account</h2>
+      <h2>{editingId !== null ? "Edit Account" : "Add Account"}</h2>
 
-      <form className="account-form" onSubmit={addAccount}>
+        <form className="account-form" onSubmit={saveAccount}>
         <label>
           Account Name
           <input
@@ -159,8 +188,14 @@ const shortTermTotal = accounts
         </label>
 
         <button type="submit" className="add-account-button">
-          Add Account
+            {editingId !== null ? "Save Changes" : "Add Account"}
         </button>
+
+        {editingId !== null && (
+        <button type="button" onClick={resetForm}>
+            Cancel
+        </button>
+)}
       </form>
 
       <h2>Your Accounts</h2>

@@ -15,8 +15,7 @@ function App() {
   const [savings, setSavings] = useState<number>(500000);
   const [withdrawalRate, setWithdrawalRate] = useState<number>(4);
 
-  const annualWithdrawal = savings * (withdrawalRate / 100);
-  const monthlyWithdrawal = annualWithdrawal / 12;
+  
  const [plannerData, setPlannerData] = useState<PlannerData>(
   () => loadData()
 );

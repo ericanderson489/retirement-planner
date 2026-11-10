@@ -36,18 +36,31 @@ function Debts({ debts, onDebtsChange }: DebtsProps) {
   const [interestRate, setInterestRate] = useState("");
   const [monthlyPayment, setMonthlyPayment] = useState("");
   const [error, setError] = useState("");
-
+  const [editingId, setEditingId] = useState<string | null>(null);
   const totalDebt = debts.reduce(
-    (total, debt) => total + debt.balance,
-    0
-  );
-
+    (total, debt) => total + debt.balance,0);
   const totalMonthlyPayments = debts.reduce(
-    (total, debt) => total + debt.monthlyPayment,
-    0
-  );
+    (total, debt) => total + debt.monthlyPayment,0);
+  function resetForm() {
+  setEditingId(null);
+  setName("");
+  setType("credit_card");
+  setBalance("");
+  setInterestRate("");
+  setMonthlyPayment("");
+  setError("");
+}
 
-  function addDebt(event: SubmitEvent<HTMLFormElement>) {
+function editDebt(debt: Debt) {
+  setEditingId(debt.id);
+  setName(debt.name);
+  setType(debt.type);
+  setBalance(String(debt.balance));
+  setInterestRate(String(debt.interestRate));
+  setMonthlyPayment(String(debt.monthlyPayment));
+  setError("");
+}
+  function saveDebt(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const numericBalance = Number(balance);
@@ -73,27 +86,33 @@ function Debts({ debts, onDebtsChange }: DebtsProps) {
       return;
     }
 
-    const newDebt: Debt = {
-      id: crypto.randomUUID(),
-      name: name.trim(),
-      type,
-      balance: numericBalance,
-      interestRate: numericRate,
-      monthlyPayment: numericPayment
-    };
+    const savedDebt: Debt = {
+  id: editingId ?? crypto.randomUUID(),
+  name: name.trim(),
+  type,
+  balance: numericBalance,
+  interestRate: numericRate,
+  monthlyPayment: numericPayment
+};
 
-    onDebtsChange([...debts, newDebt]);
+const updatedDebts = editingId !== null
+  ? debts.map((debt) =>
+      debt.id === editingId ? savedDebt : debt
+    )
+  : [...debts, savedDebt];
 
-    setName("");
-    setBalance("");
-    setInterestRate("");
-    setMonthlyPayment("");
-    setError("");
+    onDebtsChange(updatedDebts);
+    resetForm();
+    
   }
 
   function removeDebt(id: string) {
-    onDebtsChange(debts.filter((debt) => debt.id !== id));
+  onDebtsChange(debts.filter((debt) => debt.id !== id));
+
+  if (editingId === id) {
+    resetForm();
   }
+}
 
   return (
     <section className="debts-page">
@@ -111,9 +130,8 @@ function Debts({ debts, onDebtsChange }: DebtsProps) {
         </div>
       </div>
 
-      <h2>Add Debt</h2>
-
-      <form className="debt-form" onSubmit={addDebt}>
+      <h2>{editingId !== null ? "Edit Debt" : "Add Debt"}</h2>
+        <form className="debt-form" onSubmit={saveDebt}>
         <label>
           Debt Name
           <input
@@ -186,7 +204,14 @@ function Debts({ debts, onDebtsChange }: DebtsProps) {
           </p>
         )}
 
-        <button type="submit">Add Debt</button>
+        <button type="submit">
+        {editingId !== null ? "Save Changes" : "Add Debt"}
+        </button>
+        {editingId !== null && (
+        <button type="button" onClick={resetForm}>
+          Cancel
+        </button>
+      )}
       </form>
 
       <h2>Your Debts</h2>
@@ -208,14 +233,20 @@ function Debts({ debts, onDebtsChange }: DebtsProps) {
                   Monthly payment: {formatCurrency(debt.monthlyPayment)}
                 </p>
               </div>
-
               <div className="debt-card-actions">
                 <strong>{formatCurrency(debt.balance)}</strong>
-                <button
-                  type="button"
-                  aria-label={`Remove ${debt.name}`}
-                  onClick={() => removeDebt(debt.id)}
-                >
+                  <button
+                    type="button"
+                    aria-label={`Edit ${debt.name}`}
+                    onClick={() => editDebt(debt)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    aria-label={`Remove ${debt.name}`}
+                    onClick={() => removeDebt(debt.id)}
+                  >
                   Remove
                 </button>
               </div>
